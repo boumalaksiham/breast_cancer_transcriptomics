@@ -35,7 +35,7 @@ Cancer changes which genes are more or less active in a cell. Gene-expression pr
 9. Optionally performs pathway enrichment with Enrichr through `gseapy`.
 10. Saves reproducible tables and figures.
 
-## Methods in plain English
+## Methods
 
 ### Gene expression
 A gene is a region of DNA. When a cell uses a gene, it produces RNA. Gene-expression assays measure how much RNA-associated signal is present for many genes at once.
