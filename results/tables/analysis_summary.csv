@@ -1,0 +1,9 @@
+,value
+samples_analyzed,115.0
+tumor_samples,98.0
+normal_samples,17.0
+features_tested,7897.0
+significant_probes_fdr05_absdiff1,846.0
+mapped_genes,7897.0
+pca_variance_pc1,0.17256423029445467
+pca_variance_pc2,0.132661411229831
