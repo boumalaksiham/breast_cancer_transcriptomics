@@ -170,7 +170,7 @@ The plot shows strong signals in both directions, indicating that breast tumor t
 
 ## 4. Expression Heatmap
 
-The heatmap shows standardized expression values for some of the strongest differential-expression signals across individual samples.
+The heatmap shows the 25 rows ranked first by FDR in the symbol-collapsed differential-expression table. Each feature is z-scored across all samples. This visualization uses the same cohort as the statistical analysis; its separation is descriptive, not a held-out classification result.
 
 ![Top differential-expression heatmap](results/figures/top_gene_heatmap.png)
 
@@ -418,6 +418,8 @@ Run the complete analysis:
 ```bash
 python scripts/run_analysis.py
 ```
+
+The cached expression CSV is already included; it is downloaded if missing or too small. MyGene mapping and Enrichr enrichment still need network access. See [raw-data provenance](data/raw/README.md).
 
 Generated figures are written to:
 
