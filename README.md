@@ -399,7 +399,6 @@ breast_cancer_transcriptomics_GSE42568/
 │       ├── qc_summary.csv
 │       └── significant_probes_fdr05_absdiff1.csv
 │
-├── LEARNING_GUIDE.md
 ├── requirements.txt
 └── README.md
 ```
