@@ -45,7 +45,7 @@ This project currently analyzes a processed Zenodo version containing **98 tumor
 
 ---
 
-# Analysis Workflow
+## Analysis Workflow
 
 ```text
 Public expression data
@@ -83,7 +83,7 @@ GO + KEGG pathway enrichment
 
 ---
 
-# Results
+## Results
 
 ## 1. Global Expression Structure — PCA
 
@@ -189,7 +189,7 @@ The visualization supports the PCA and differential-expression results: the tumo
 
 ---
 
-# Pathway Enrichment
+## Pathway Enrichment
 
 Significant genes were submitted to **Enrichr** for functional enrichment against:
 
@@ -291,7 +291,7 @@ Therefore, some expression differences may reflect changes in **tissue compositi
 
 ---
 
-# Statistical Methods
+## Statistical Methods
 
 ## Welch's t-test
 
@@ -316,7 +316,7 @@ Instead, FDR controls the expected proportion of false discoveries among the gro
 
 ---
 
-# Important Limitations
+## Important Limitations
 
 This analysis should be interpreted with several limitations in mind:
 
@@ -354,7 +354,7 @@ This analysis should be interpreted with several limitations in mind:
 
 ---
 
-# Next Steps
+## Next Steps
 
 Planned improvements include:
 
@@ -369,7 +369,7 @@ Planned improvements include:
 
 ---
 
-# Repository Structure
+## Repository Structure
 
 ```text
 breast_cancer_transcriptomics_GSE42568/
@@ -405,7 +405,7 @@ breast_cancer_transcriptomics_GSE42568/
 
 ---
 
-# Reproducing the Analysis
+## Reproducing the Analysis
 
 Install dependencies:
 
@@ -433,7 +433,7 @@ results/tables/
 
 ---
 
-# Tools and Methods
+## Tools and Methods
 
 | Area | Tools / Methods |
 |---|---|
@@ -451,10 +451,25 @@ results/tables/
 
 ---
 
-# Author
+## Author
 
 **Siham Boumalak**  
 M.S. Artificial Intelligence  
 Northeastern University
 
 Research interests: **biomedical informatics, computational biology, machine learning, trustworthy AI, NLP, and reproducible data analysis.**
+
+## Reproduction notes
+
+Start in the repository root and use a separate environment:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python scripts/run_analysis.py
+```
+
+On Windows use `.venv\Scripts\Activate.ps1`. Existing output files can be overwritten; preserve committed results separately before comparing a rerun. Requirements are not a complete environment lock. Record package versions and input checksums alongside generated tables. Committed figures and tables document a previous run; this documentation update did not rerun the analysis.
+
+Gene mapping and pathway enrichment call external MyGene and Enrichr services even when expression data is cached. Service responses can change. If enrichment fails, inspect the console and output timestamps rather than assuming an existing pathway table came from the new run. This exploratory analysis does not establish clinical validity.

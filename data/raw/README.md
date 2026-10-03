@@ -1,11 +1,9 @@
 # Raw data
 
-This folder is intentionally kept in the repository so the project structure is visible on GitHub.
+`GSE42568.csv` is included in this repository. The analysis script uses this cached file and downloads it only when it is missing.
 
-The analysis script downloads the public GSE42568 expression data and GPL570 annotation here when you run:
+Source used by the script: [GSE42568.csv](https://zenodo.org/records/4846212/files/GSE42568.csv?download=1).
 
-```bash
-python scripts/run_analysis.py
-```
+`GPL570.annot.gz` is also tracked as an annotation artifact. The current Python analysis uses the MyGene service for mapping; it does not download or consume this GPL archive.
 
-The downloaded raw data files themselves are not committed to GitHub.
+Run `python scripts/run_analysis.py` from the repository root, after installing its requirements. Preserve the input file and record its checksum when comparing runs; cached data and a later remote download may not be identical.
