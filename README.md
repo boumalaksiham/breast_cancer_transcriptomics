@@ -1,6 +1,6 @@
-# Breast Cancer Transcriptomic Signature Analysis — GSE42568
+# Breast Cancer Differential Expression — GSE42568
 
-> A reproducible transcriptomics analysis comparing breast tumor and normal breast tissue using publicly available gene-expression data.
+An exploratory microarray analysis comparing 98 tumor and 17 normal breast samples, with differential-expression tables, PCA, a volcano plot, a heatmap, and pathway enrichment.
 
 **Python · Transcriptomics · Differential Expression · PCA · FDR · GO/KEGG Enrichment**
 
@@ -45,47 +45,21 @@ This project currently analyzes a processed Zenodo version containing **98 tumor
 
 ---
 
-## Analysis Workflow
+## Analysis workflow and evidence
 
-```text
-Public expression data
-        │
-        ▼
-Sample / feature inspection
-        │
-        ▼
-Quality control
-        │
-        ▼
-Gene ID annotation
-        │
-        ├──────────────► PCA
-        │
-        ▼
-Tumor vs Normal comparison
-        │
-        ▼
-Welch's t-test
-        │
-        ▼
-Benjamini-Hochberg FDR correction
-        │
-        ▼
-Differentially expressed genes
-        │
-        ├──────────────► Volcano plot
-        │
-        ├──────────────► Heatmap
-        │
-        ▼
-GO + KEGG pathway enrichment
-```
+1. Load the processed expression dataset and inspect sample labels and feature distributions.
+2. Examine global variation with PCA.
+3. Compare tumor and normal means using Welch's tests and Benjamini–Hochberg correction.
+4. Apply the documented FDR and expression-difference thresholds, annotate identifiers, and visualize the results.
+5. Submit significant genes for exploratory GO and KEGG enrichment.
 
----
+**Read the evidence:** [analysis summary](results/tables/analysis_summary.csv), [differential-expression results](results/tables/differential_expression_all_probes.csv), and [pathway results](results/tables/pathway_enrichment.csv). The [analysis script](scripts/run_analysis.py) defines every transformation.
+
+The main methodological choices are unequal-variance testing for unequal group sizes, correction across thousands of comparisons, and a separate expression-difference filter. The effect-size filter applies to the processed expression scale; it should not be described as a fold-change threshold without establishing that scale's meaning.
 
 ## Results
 
-## 1. Global Expression Structure — PCA
+### 1. Global Expression Structure — PCA
 
 Principal Component Analysis was used to examine major patterns in the expression profiles without using the tumor/normal label to construct the components.
 
@@ -103,11 +77,11 @@ Normal breast samples occupy a relatively distinct region of the PCA space, part
 
 The separation is not perfect: several tumor samples extend toward the normal region.
 
-This is consistent with **heterogeneity among breast tumors** and demonstrates that the tumor-normal distinction is reflected across many expression features rather than a single gene.
+The spread is compatible with biological and technical variation, but PCA alone cannot identify its source. This figure describes the analyzed cohort; it is not a classification or external-validation result.
 
 ---
 
-## 2. Differential Expression
+### 2. Differential Expression
 
 Expression was compared between tumor and normal breast tissue using **Welch's t-test**.
 
@@ -153,7 +127,7 @@ Positive differences indicate higher expression in tumor tissue, while negative 
 
 ---
 
-## 3. Volcano Plot
+### 3. Volcano Plot
 
 The volcano plot combines:
 
@@ -168,7 +142,7 @@ The plot shows strong signals in both directions, indicating that breast tumor t
 
 ---
 
-## 4. Expression Heatmap
+### 4. Expression Heatmap
 
 The heatmap shows the 25 rows ranked first by FDR in the symbol-collapsed differential-expression table. Each feature is z-scored across all samples. This visualization uses the same cohort as the statistical analysis; its separation is descriptive, not a held-out classification result.
 
@@ -185,7 +159,7 @@ Several genes show clear group-associated shifts, including:
 - **HOXC10**
 - **CSTA**
 
-The visualization supports the PCA and differential-expression results: the tumor-normal distinction is represented by a **multi-gene transcriptional pattern**, rather than a single isolated feature.
+Because these features were selected using the same cohort, the heatmap illustrates the statistical results rather than independently validating them.
 
 ---
 
@@ -405,33 +379,21 @@ breast_cancer_transcriptomics_GSE42568/
 
 ---
 
-## Reproducing the Analysis
+## Reproducing the analysis
 
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run the complete analysis:
+Start in the repository root and use a separate environment:
 
 ```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
 python scripts/run_analysis.py
 ```
 
-The cached expression CSV is already included; it is downloaded if missing or too small. MyGene mapping and Enrichr enrichment still need network access. See [raw-data provenance](data/raw/README.md).
+On Windows use `.venv\Scripts\Activate.ps1`. Existing output files can be overwritten; preserve committed results separately before comparing a rerun. Requirements are not a complete environment lock. Record package versions and input checksums alongside generated tables. Committed figures and tables document a previous run; this documentation update did not rerun the analysis.
 
-Generated figures are written to:
+Gene mapping and pathway enrichment call external MyGene and Enrichr services even when expression data is cached. Service responses can change. If enrichment fails, inspect the console and output timestamps rather than assuming an existing pathway table came from the new run. This exploratory analysis does not establish clinical validity.
 
-```text
-results/figures/
-```
-
-and analysis tables are written to:
-
-```text
-results/tables/
-```
 
 ---
 
@@ -461,17 +423,3 @@ Northeastern University
 
 Research interests: **biomedical informatics, computational biology, machine learning, trustworthy AI, NLP, and reproducible data analysis.**
 
-## Reproduction notes
-
-Start in the repository root and use a separate environment:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python scripts/run_analysis.py
-```
-
-On Windows use `.venv\Scripts\Activate.ps1`. Existing output files can be overwritten; preserve committed results separately before comparing a rerun. Requirements are not a complete environment lock. Record package versions and input checksums alongside generated tables. Committed figures and tables document a previous run; this documentation update did not rerun the analysis.
-
-Gene mapping and pathway enrichment call external MyGene and Enrichr services even when expression data is cached. Service responses can change. If enrichment fails, inspect the console and output timestamps rather than assuming an existing pathway table came from the new run. This exploratory analysis does not establish clinical validity.
